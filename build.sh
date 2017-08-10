@@ -5,4 +5,4 @@
 #
 
 docker build -t cmu-mars/base .
-docker build -t cmu-mars/gazebo https://github.com/cmu-mars/cp-gazebo-p15.git
+docker build -t cmu-mars/gazebo https://github.com/ChrisTimperley/cp-gazebo-p15.git
