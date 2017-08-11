@@ -1,7 +1,20 @@
+# see: https://github.com/toddsampson/ros-docker/blob/master/docker-compose.yml
 version: '2'
 services:
   roscore:
-    image: "ros:kinetic"
-    command: "roscore"
+    image: ros:kinetic
+    container_name: roscore
+    hostname: roscore
+    ports:
+      - 11311:11311
+    command: roscore
+
   ig-server:
-    image: "cmu-mars/ig-server"
+    image: cmu-mars/ig-server
+    container_name: ig-server
+    hostname: ig-server
+    environment:
+      - "ROS_HOSTNAME=ig-server"
+      - "ROS_MASTER_URI=http://roscore:11311"
+    depends_on:
+      - roscore
