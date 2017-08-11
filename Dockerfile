@@ -34,3 +34,7 @@ ENV CP_MAPS_REV 96ff699
 RUN git clone https://github.com/cmu-mars/cp-maps-p15 src/maps && \
     cd src/maps && \
     git reset --hard "${CP_MAPS_REV}"
+
+# add the entrypoint script
+ADD entrypoint.sh /entrypoint.sh
+CMD /bin/bash
