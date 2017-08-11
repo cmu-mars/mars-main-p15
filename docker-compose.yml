@@ -1,4 +1,7 @@
 version: '2'
 services:
+  roscore:
+    image: "ros:kinetic"
+    command: "roscore"
   ig-server:
     image: "cmu-mars/ig-server"
