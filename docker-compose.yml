@@ -1,4 +1,5 @@
 # see: https://github.com/toddsampson/ros-docker/blob/master/docker-compose.yml
+# https://github.com/LI3DS/ros-li3ds/blob/master/docker-compose.yml
 version: '2'
 services:
   roscore:
@@ -9,6 +10,7 @@ services:
       - 11311:11311
     command: roscore
 
+  # works fine
   ig-server:
     image: cmu-mars/ig-server
     container_name: ig-server
@@ -18,3 +20,17 @@ services:
       - "ROS_MASTER_URI=http://roscore:11311"
     depends_on:
       - roscore
+    command: python src/ig_action_server/src/ig_server.py
+
+  # not working
+  gazebo:
+    image: cmu-mars/gazebo
+    container_name: gazebo
+    hostname: gazebo
+    environment:
+      - "ROS_HOSTNAME=gazebo"
+      - "ROS_MASTER_URI=http://roscore:11311"
+    depends_on:
+      - roscore
+      - ig-server
+    command: roslaunch cp_gazebo cp1.launch
