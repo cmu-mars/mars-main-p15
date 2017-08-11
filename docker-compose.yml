@@ -1,0 +1,4 @@
+version: '2'
+services:
+  ig-server:
+    image: "cmu-mars/ig-server"
