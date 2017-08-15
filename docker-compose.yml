@@ -22,15 +22,29 @@ services:
       - roscore
     command: python src/ig_action_server/src/ig_server.py
 
-  # not working
-  gazebo:
-    image: cmu-mars/gazebo
-    container_name: gazebo
-    hostname: gazebo
+  # rainbow should run inside its own container
+  # TODO: doesn't work -- gets very angry that Gazebo isn't running
+  brasscomms:
+    image: cmu-mars/brasscomms
+    container_name: brasscomms
+    hostname: brasscomms
     environment:
-      - "ROS_HOSTNAME=gazebo"
+      - "ROS_HOSTNAME=brasscomms"
       - "ROS_MASTER_URI=http://roscore:11311"
     depends_on:
       - roscore
       - ig-server
-    command: roslaunch cp_gazebo cp1.launch
+    command: python src/brasscomms/src/brasscomms.py
+
+  # not working
+  #  gazebo:
+  #    image: cmu-mars/gazebo
+  #    container_name: gazebo
+  #    hostname: gazebo
+  #    environment:
+  #      - "ROS_HOSTNAME=gazebo"
+  #      - "ROS_MASTER_URI=http://roscore:11311"
+  #    depends_on:
+  #      - roscore
+  #      - ig-server
+  #    command: roslaunch cp_gazebo cp1.launch
