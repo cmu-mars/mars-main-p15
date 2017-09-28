@@ -1,0 +1,49 @@
+# https://answers.ros.org/question/253832/docker-how-to-make-sure-nodes-start-after-master/
+# see: https://github.com/toddsampson/ros-docker/blob/master/docker-compose.yml
+# https://github.com/LI3DS/ros-li3ds/blob/master/docker-compose.yml
+version: '2'
+services:
+  roscore:
+    image: ros:kinetic
+    container_name: roscore
+    hostname: roscore
+    ports:
+      - 11311:11311
+    command: roscore
+
+  ig-server:
+    image: cmu-mars/ig-server
+    container_name: ig-server
+    hostname: ig-server
+    environment:
+      - "ROS_HOSTNAME=ig-server"
+      - "ROS_MASTER_URI=http://roscore:11311"
+    depends_on:
+      - roscore
+    command: python src/ig_action_server/src/ig_server.py
+
+  gazebo:
+    image: cmu-mars/gazebo
+    container_name: gazebo
+    hostname: gazebo
+    environment:
+      - "ROS_HOSTNAME=gazebo"
+      - "ROS_MASTER_URI=http://roscore:11311"
+    depends_on:
+      - roscore
+    command: roslaunch --wait -v /home/mars/catkin_ws/src/cp-gazebo/launch/cp1.launch
+
+  # TODO: rainbow should run inside its own container
+  # TODO: needs to wait for gazebo to be up and running!
+  #brasscomms:
+  #  image: cmu-mars/brasscomms
+  #  container_name: brasscomms
+  #  hostname: brasscomms
+  #  environment:
+  #    - "ROS_HOSTNAME=brasscomms"
+  #    - "ROS_MASTER_URI=http://roscore:11311"
+  #  depends_on:
+  #    - roscore
+  #    - ig-server
+  #    - gazebo
+  #  command: python src/brasscomms/src/brasscomms.py
