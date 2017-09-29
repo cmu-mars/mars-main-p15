@@ -5,6 +5,7 @@ FROM ros:kinetic
 # create a "mars" user with sudo privileges
 # TODO: add tidying commands to shrink image size
 RUN apt-get update && \
+    apt-get install -y --no-install-recommends apt-utils && \
     apt-get install -y sudo && \
     useradd -ms /bin/bash mars && \
     usermod -a -G sudo mars && \
