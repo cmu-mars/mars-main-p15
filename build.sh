@@ -4,3 +4,4 @@
 # containers.
 #
 docker build -t cmu-mars/base       .
+docker-compose build
