@@ -52,4 +52,5 @@ services:
       - roscore
       - ig-server
       - gazebo
-    command: python src/brasscomms/src/brasscomms.py
+    # -u flag is used to disable output buffering -- useful for debugging!
+    command: python -u src/brasscomms/src/brasscomms.py
