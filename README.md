@@ -11,3 +11,16 @@ workspace and holds everything that isn't in one such subsystem:
 
 together, this represents "phase 1.5", which is the P1 deliverable running
 on kinetic and inside docker rather than indigo and vagrant.
+
+## Installation
+
+To install, simply run:
+
+```
+./build.sh
+```
+
+This will build individual Docker images for each of the logical components
+within the MARS project. Note that there is no need to clone the associated
+repositories for each component; the script ensures that the latest version
+of each component is built.
