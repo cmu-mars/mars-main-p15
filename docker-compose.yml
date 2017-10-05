@@ -1,14 +1,20 @@
 # https://answers.ros.org/question/253832/docker-how-to-make-sure-nodes-start-after-master/
 # see: https://github.com/toddsampson/ros-docker/blob/master/docker-compose.yml
 # https://github.com/LI3DS/ros-li3ds/blob/master/docker-compose.yml
+# http://jaredmmoore.com/rosgazebo-genetic-algorithms-and-multiple-instances/
+#
+# Note: The `expose` command is used to expose a given port on a specific
+#       container to the wider internal network (i.e., not the host machine).
+#       Ports may be forwarded to the host network using the "ports" command.
+#
 version: '2'
 services:
   roscore:
     image: ros:kinetic
     container_name: roscore
     hostname: roscore
-    ports:
-      - 11311:11311
+    expose:
+      - 11311
     command: roscore
 
   ig-server:
@@ -22,7 +28,7 @@ services:
       - "ROS_MASTER_URI=http://roscore:11311"
     depends_on:
       - roscore
-    command: python src/ig_action_server/src/ig_server.py
+    command: python -u src/ig_action_server/src/ig_server.py
 
   gazebo:
     build:
@@ -30,15 +36,18 @@ services:
     image: cmu-mars/gazebo
     container_name: gazebo
     hostname: gazebo
+    # expose the Gazebo server to the host machine
+    ports:
+      - 11345:11345
     environment:
       - "ROS_HOSTNAME=gazebo"
       - "ROS_MASTER_URI=http://roscore:11311"
+      - "GAZEBO_MASTER_URI=http://localhost:11345"
     depends_on:
       - roscore
     command: roslaunch --wait -v /home/mars/catkin_ws/src/cp-gazebo/launch/cp1.launch
 
   # TODO: rainbow should run inside its own container
-  # TODO: needs to wait for gazebo to be up and running!
   brasscomms:
     build:
       context: https://github.com/cmu-mars/brasscomms.git
@@ -52,4 +61,5 @@ services:
       - roscore
       - ig-server
       - gazebo
-    command: python src/brasscomms/src/brasscomms.py
+    # -u flag is used to disable output buffering -- useful for debugging!
+    command: python -u src/brasscomms/src/brasscomms.py
