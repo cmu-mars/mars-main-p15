@@ -3,8 +3,9 @@
 # https://github.com/LI3DS/ros-li3ds/blob/master/docker-compose.yml
 # http://jaredmmoore.com/rosgazebo-genetic-algorithms-and-multiple-instances/
 #
-# docker run --rm --name gzbo -p 11345:11345 -it gazebo:gzserver7
-# gzclient
+# Note: The `expose` command is used to expose a given port on a specific
+#       container to the wider internal network (i.e., not the host machine).
+#       Ports may be forwarded to the host network using the "ports" command.
 #
 version: '2'
 services:
@@ -12,8 +13,8 @@ services:
     image: ros:kinetic
     container_name: roscore
     hostname: roscore
-    ports:
-      - 11311:11311
+    expose:
+      - 11311
     command: roscore
 
   ig-server:
