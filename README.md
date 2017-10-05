@@ -24,3 +24,12 @@ This will build individual Docker images for each of the logical components
 within the MARS project. Note that there is no need to clone the associated
 repositories for each component; the script ensures that the latest version
 of each component is built.
+
+## Visualisation
+
+To connect your local machine to the Gazebo server running inside the cluster,
+run the following.
+
+```
+gzclient
+```
