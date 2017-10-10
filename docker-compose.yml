@@ -2,6 +2,9 @@
 # see: https://github.com/toddsampson/ros-docker/blob/master/docker-compose.yml
 # https://github.com/LI3DS/ros-li3ds/blob/master/docker-compose.yml
 # http://jaredmmoore.com/rosgazebo-genetic-algorithms-and-multiple-instances/
+# https://answers.ros.org/question/154511/fast-headless-robot-simulator/
+# https://bitbucket.org/osrf/gazebo/issues/1837/vmware-rendering-z-ordering-appears-random
+# https://github.com/leonid-shevtsov/headless/issues/47
 #
 # Note: The `expose` command is used to expose a given port on a specific
 #       container to the wider internal network (i.e., not the host machine).
@@ -57,6 +60,8 @@ services:
     environment:
       - "ROS_HOSTNAME=brasscomms"
       - "ROS_MASTER_URI=http://roscore:11311"
+    ports:
+      - 5000:5000
     depends_on:
       - roscore
       - ig-server
