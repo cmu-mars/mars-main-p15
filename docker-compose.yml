@@ -48,7 +48,7 @@ services:
       - "GAZEBO_MASTER_URI=http://localhost:11345"
     depends_on:
       - roscore
-    command: roslaunch --wait -v /home/mars/catkin_ws/src/cp-gazebo/launch/cp1.launch
+    command: roslaunch --wait /home/mars/catkin_ws/src/cp-gazebo/launch/cp1.launch 
 
   # TODO: rainbow should run inside its own container
   brasscomms:
@@ -67,4 +67,4 @@ services:
       - ig-server
       - gazebo
     # -u flag is used to disable output buffering -- useful for debugging!
-    command: python -u src/brasscomms/src/brasscomms.py
+    command: python -u src/brasscomms/src/brasscomms.py | tee brasscomms.out

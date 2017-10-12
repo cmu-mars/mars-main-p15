@@ -38,5 +38,5 @@ RUN git clone https://github.com/cmu-mars/cp-maps-p15 src/maps && \
 
 # add the entrypoint script
 ADD entrypoint.sh entrypoint.sh
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/home/mars/catkin_ws/entrypoint.sh"]
 CMD ["/bin/bash"]
