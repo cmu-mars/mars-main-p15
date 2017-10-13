@@ -35,8 +35,16 @@ ENV CP_MAPS_REV 80afb8f
 RUN git clone https://github.com/cmu-mars/cp-maps-p15 src/maps && \
     cd src/maps && \
     git reset --hard "${CP_MAPS_REV}"
+    
+# install shared "models" module
+ENV MARS_MODELS_REVISION 5dd3542
+RUN git clone https://github.com/cmu-mars/cp-models-p15 \
+              src/cp-models-p15 && \
+    cd src/cp-models-p15 && \
+    git checkout "${MARS_MODELS_REVISION}"
 
 # add the entrypoint script
 ADD entrypoint.sh entrypoint.sh
 ENTRYPOINT ["/home/mars/catkin_ws/entrypoint.sh"]
+
 CMD ["/bin/bash"]
